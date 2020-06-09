@@ -36,6 +36,7 @@ def getData(data):
         if os.path.isdir(d):
             os.chdir(d)
             print(f"{d} -> {os.listdir('.')}")
+            os.chdir('../')
 
 if __name__ == '__main__':
     #checkName(conn.getSpace(),conn.getPage())
