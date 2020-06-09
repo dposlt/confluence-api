@@ -20,6 +20,16 @@ def getPass():
     passwd = getpass.getpass(prompt = f'Password for user: {getUser()} >: ', stream=None)
     return passwd
 
+def getSpace():
+    space = readIniFile()['SPACE']['id']
+    return space
 
 
-print(getPass())
+def getPage():
+    page = readIniFile()['SPACE']['page']
+    return page
+
+def getKey():
+    key = readIniFile()['SPACE']['key']
+    return key
+    
