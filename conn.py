@@ -1,29 +1,25 @@
-import configparser
+import configparser, getpass
 
-class Connector:
-    def __init__(self):
-        self.config = configparser.ConfigParser()
-        self.config.read('setting.ini')
+def readIniFile():
 
-    def confUrl(self):
-        url = self.config['CONNECTOR']['url']
-        return url
+    config = configparser.ConfigParser()
+    config.read('settings.ini')
+    return config
+    
+    
+def getUrl():
+    url = readIniFile()['CONNECTOR']['url']
+    return url
 
-    def confUser(self):
-        user = self.config['CONNECTOR']['user']
-        return user
-
-    def confPass(self):
-        passwd = self.config['CONNECTOR']['passwd']
-        return passwd
-
-    def getData(self):
-        data = self.config['DATA']['url']
-        return data
+def getUser():
+    user = readIniFile()['CONNECTOR']['user']
+    return user
 
 
-c = Connector()
-print(c.confUrl())
-print(c.confUser())
-print(c.confPass())
-print(c.getData())
+def getPass():
+    passwd = getpass.getpass(prompt = f'Password for user: {getUser()} >: ', stream=None)
+    return passwd
+
+
+
+print(getPass())
