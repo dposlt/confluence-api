@@ -27,14 +27,15 @@ def createPage(title):
 
 def getData(data):
 
-    for(dirpath, dirnames, filenames) in os.walk(data):
-        
-        for i in filenames:
-            if os.path.isfile(dirpath+i):
-                print(dirpath+i)
-            if os.path.isdir(dirpath+i):
-                print(dirpath+i)
+    os.chdir(data)
+    print(os.getcwd())
 
+    for d in os.listdir('.'):
+        if os.path.isfile(d):
+            print(f'file -> {d}')
+        if os.path.isdir(d):
+            os.chdir(d)
+            print(f"{d} -> {os.listdir('.')}")
 
 if __name__ == '__main__':
     #checkName(conn.getSpace(),conn.getPage())
