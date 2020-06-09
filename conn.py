@@ -32,4 +32,11 @@ def getPage():
 def getKey():
     key = readIniFile()['SPACE']['key']
     return key
-    
+
+def getParentId():
+    parentID = readIniFile()['SPACE']['parent_id']
+    return parentID
+
+def getData():
+    data = readIniFile()['DATA']['path']
+    return data
