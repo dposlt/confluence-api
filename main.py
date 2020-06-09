@@ -39,12 +39,17 @@ def getData(data):
             os.chdir('../')
 
 if __name__ == '__main__':
-    #checkName(conn.getSpace(),conn.getPage())
+
+    ## create root page ##
+    page = ['western','western2']
+    for i in page:
+        createPage(i)
+        
    
     #print(spaceInfo(conn.getKey()))
     #createPage(getData(conn.getData()))
 
-    getData(conn.getData())
+    #getData(conn.getData())
     
 
     
