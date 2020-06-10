@@ -32,24 +32,26 @@ def getData(data):
 
     for d in os.listdir('.'):
         if os.path.isfile(d):
-            print(f'file -> {d}')
+            print(f'FILE -> {d}\n')
         if os.path.isdir(d):
             os.chdir(d)
-            print(f"{d} -> {os.listdir('.')}")
+            print(f"DIRECTORY {d} -> {os.listdir('.')}\n")
             os.chdir('../')
+    #getData(conn.getData())
 
 if __name__ == '__main__':
 
     ## create root page ##
+    '''
     page = ['western','western2']
     for i in page:
         createPage(i)
-        
+    '''    
    
     #print(spaceInfo(conn.getKey()))
     #createPage(getData(conn.getData()))
 
-    #getData(conn.getData())
+    getData(conn.getData())
     
 
     
