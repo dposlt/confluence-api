@@ -33,10 +33,11 @@ def getKey():
     key = readIniFile()['SPACE']['key']
     return key
 
-def getParentId():
-    parentID = readIniFile()['SPACE']['parent_id']
+def getParentId(id):
+    parentID = readIniFile()['SPACE'][id]
     return parentID
 
 def getData(p):
     data = readIniFile()['DATA'][p]
     return data
+

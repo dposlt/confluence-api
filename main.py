@@ -20,10 +20,9 @@ def spaceInfo(key):
     return info
 
 
-def createPage(title):
-
-    conflu().create_page(conn.getKey(),title,'', conn.getParentId())
-    print('done create page')
+def createPage():
+    conflu().create_page('MP','TEST','','1332818238')
+    #print(f'create page --> {title}')
 
 def getData(data):
 
@@ -32,27 +31,21 @@ def getData(data):
 
     for d in os.listdir('.'):
         if os.path.isfile(d):
-            print(f'FILE -> {d}\n')
+            #print(f'FILE -> {d}\n')
+            return d
         if os.path.isdir(d):
             os.chdir(d)
-            print(f"DIRECTORY {d} -> {os.listdir('.')}\n")
+            #print(f"DIRECTORY {d} -> {os.listdir('.')}\n")
+            return d
             os.chdir('../')
     #getData(conn.getData())
 
 if __name__ == '__main__':
+    #print(spaceInfo('MP'))
+    #createPage(conn.getKey(), getData(conn.getData('pathWSS')),  '1332818238')
+    #getData(conn.getData('pathWSS'))
+    #createPage()
 
-    ## create root page ##
-    '''
-    page = ['western','western2']
-    for i in page:
-        createPage(i)
-    '''    
-   
-    #print(spaceInfo(conn.getKey()))
-    #createPage(getData(conn.getData()))
-
-    getData(conn.getData('pathWSS'))
-    
 
     
 
