@@ -51,7 +51,7 @@ if __name__ == '__main__':
     #print(spaceInfo(conn.getKey()))
     #createPage(getData(conn.getData()))
 
-    getData(conn.getData())
+    getData(conn.getData('pathWSS'))
     
 
     

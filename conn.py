@@ -37,6 +37,6 @@ def getParentId():
     parentID = readIniFile()['SPACE']['parent_id']
     return parentID
 
-def getData():
-    data = readIniFile()['DATA']['path']
+def getData(p):
+    data = readIniFile()['DATA'][p]
     return data
