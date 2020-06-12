@@ -17,7 +17,8 @@ def getUser():
 
 
 def getPass():
-    passwd = getpass.getpass(prompt = f'Password for user: {getUser()} >: ', stream=None)
+    #passwd = getpass.getpass(prompt = f'Password for user: {getUser()} >: ', stream=None)
+    passwd = readIniFile()['CONNECTOR']['passwd']
     return passwd
 
 def getSpace():
