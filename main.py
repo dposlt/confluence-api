@@ -11,6 +11,7 @@ def conflu():
 
     return confluence
 
+
 def checkName(space,title):
     conflu().page_exists(space,title)
 
@@ -20,8 +21,11 @@ def spaceInfo(key):
     return info
 
 
-def createPage():
-    conflu().create_page('MP','TEST','','1332818238')
+def createPage(page_space, page_title, body, parent_id):
+    page_status = conflu().create_page(space=page_space, title=page_title, body=body, parent_id=parent_id)
+    print(f'create page --> {page_title}')
+    return page_status
+
     #print(f'create page --> {title}')
 
 def getData(data):
@@ -41,14 +45,9 @@ def getData(data):
     #getData(conn.getData())
 
 if __name__ == '__main__':
+    #conflu().create_page('MP','test','','1260453923')
+    #conflu()
     #print(spaceInfo('MP'))
-    #createPage(conn.getKey(), getData(conn.getData('pathWSS')),  '1332818238')
-    #getData(conn.getData('pathWSS'))
-    #createPage()
+    print(getData(conn.getData('pathWHB'))) #nevrati se !!!
 
-
-    
-
-
-
-
+    conflu().create_page(conn.getKey(),'a d g','',conn.getParentId('parent_id_whb'))
