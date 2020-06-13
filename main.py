@@ -8,7 +8,7 @@ confluence_url = config['CONNECTOR']['url']
 confluence_username = config['CONNECTOR']['user']
 confluence_password = config['CONNECTOR']['passwd']
 space_key = config['SPACE']['key']
-root_page_id = config['SPACE']['id']
+root_page_id = config['SPACE']['local_id']
 
 
 def conflu():
