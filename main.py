@@ -38,14 +38,17 @@ def removerPage(page_id):
 
 
 def createPage(page_space, page_title, body, parent_id):
-    page_status = confluence.create_page(space=page_space, title=page_title, body=body, parent_id=parent_id)
-    print(f'create page --> {page_title} -> page_status')
+    confluence.create_page(space=page_space, title=page_title, body=body, parent_id=parent_id)
+    print(f'create page --> {page_title} ')
 
 def get_page_id(space, title):
-    confluence.get_page_id(space, title)
+    if confluence.page_exists(space, title):
+        return confluence.get_page_id(space, title)
+    else:
+        print('page doesnt exists')
     #print(f'create page --> {title}')
 
-def getData(data):
+def getData(data, id):
 
     os.chdir(data)
     #print(os.getcwd())
@@ -53,21 +56,19 @@ def getData(data):
     for d in os.listdir('.'):
         if os.path.isfile(d):
             cut_end = d[:-4]
-            createPage(const.SPACE_KEY, cut_end, '',const.PARENT_ID_WHB)
+            createPage(const.SPACE_KEY, cut_end, '',id)
 
 
         if os.path.isdir(d):
-            createPage(const.SPACE_KEY, d, '', const.PARENT_ID_WHB)
+            createPage(const.SPACE_KEY, d, '', id)
             os.chdir(d)
             for f in os.listdir('.'):
-                cut_end = d[:-4]
-                createPage(const.SPACE_KEY, cut_end, '', const.PARENT_ID_WHB)
+                cut_end = f[:-4]
+                page_id = get_page_id(const.SPACE_KEY, d)
+                createPage(const.SPACE_KEY, cut_end, '', page_id)
             os.chdir('../')
     #getData(conn.getData())
 
 if __name__ == '__main__':
-
-    #getData(conn.getData('pathWHB'))
-    print(get_page_id(const.SPACE_KEY, 'WSS'))
-    #c = confluence.get_page_child_by_type(const.SPACE_ID, type='page', start=None, limit=None)
-    #print(c)
+    #removerPage(const.PARENT_ID_WHB)
+    getData(const.PATH_WHB, const.PARENT_ID_WHB)
