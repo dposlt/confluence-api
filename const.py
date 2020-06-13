@@ -1,0 +1,13 @@
+### CONST FOR CONFLUENCE ###
+
+URL = "http://localhost:8090"
+USER = "sysadmin"
+PASSWD = "null"
+
+PATH_WHB = "data/WHB"
+PATH_WSS = "data/WSS"
+
+SPACE_ID = 65591
+SPACE_KEY = "MP"
+PARENT_ID_WHB = 917505
+PARENT_ID_WSS = 917507
