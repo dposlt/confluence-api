@@ -56,6 +56,10 @@ def getData(data, id):
     for d in os.listdir('.'):
         if os.path.isfile(d):
             cut_end = d[:-4]
+            if confluence.page_exists(const.SPACE_KEY,cut_end):
+                print(f'page {cut_end} already exist')
+                continue
+
             createPage(const.SPACE_KEY, cut_end, '',id)
 
 
@@ -65,10 +69,24 @@ def getData(data, id):
             for f in os.listdir('.'):
                 cut_end = f[:-4]
                 page_id = get_page_id(const.SPACE_KEY, d)
+                if confluence.page_exists(const.SPACE_KEY,cut_end):
+                    print(f'page {cut_end} already exist')
+                    continue
+
                 createPage(const.SPACE_KEY, cut_end, '', page_id)
             os.chdir('../')
     #getData(conn.getData())
 
 if __name__ == '__main__':
-    #removerPage(const.PARENT_ID_WHB)
+    #removerPage(const.PARENT_ID_WSS)
     getData(const.PATH_WHB, const.PARENT_ID_WHB)
+    #print(spaceInfo(const.SPACE_KEY))
+    #createPage(const.SPACE_KEY, const.NAME_WHS,'',const.SPACE_ID)
+    #createPage(const.SPACE_KEY, const.NAME_WSS, '', const.SPACE_ID)
+    #pageid = get_page_id(const.SPACE_KEY, const.NAME_WHS)
+    #print(pageid)
+    #createPage(const.SPACE_KEY, '1 01 2018 KVK_Řídicí a kontrolní systém', '', const.PARENT_ID_WHB)
+    confluence.clean_all_caches()
+
+
+
