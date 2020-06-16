@@ -81,10 +81,10 @@ def getData(data, id):
     #getData(conn.getData())
 
 if __name__ == '__main__':
-    removerPage(const.PARENT_ID_WHB)
+    #removerPage(const.PARENT_ID_WHB)
     #getData(const.PATH_WHB, const.PARENT_ID_WHB)
     #print(spaceInfo(const.SPACE_KEY))
-    #createPage(const.SPACE_KEY, const.NAME_WHS,'',const.SPACE_ID)
+    createPage(const.SPACE_KEY, const.NAME_WHS,'',const.SPACE_ID)
     #createPage(const.SPACE_KEY, const.NAME_WSS, '', const.SPACE_ID)
     #pageid = get_page_id(const.SPACE_KEY, const.NAME_WHS)
     #print(pageid)

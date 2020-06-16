@@ -1,7 +1,12 @@
 import logging
 import time
 
-log = logging.getLogger("my-logger")
-logging.basicConfig(filename='logs/skip.log')
-time = time.asctime()
-log.info(time)
+
+def setLog(s):
+    logging.basicConfig(level = logging.WARNING, filename='logs/app.log', filemode='a', format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+    currentTime = time
+    logging.warning(s)
+
+
+
+
