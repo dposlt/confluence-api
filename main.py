@@ -1,5 +1,5 @@
 from atlassian import Confluence
-import conn, os, const
+import conn, os, const, setLog
 
 #configparser
 
@@ -58,33 +58,39 @@ def getData(data, id):
             cut_end = d[:-4]
             if confluence.page_exists(const.SPACE_KEY,cut_end):
                 page_id = get_page_id(const.SPACE_KEY, cut_end)
-                print(f'page {cut_end} with id {page_id} already exist')
-                removerPage(page_id)
-                createPage(const.SPACE_KEY, cut_end, '', id)
-            else:
-                createPage(const.SPACE_KEY, cut_end, '',id)
+                print(f'--> skipping {cut_end} <-- ')
+                setLog.setLog(f'page {cut_end} with id {page_id} already exist ==> skipping')
+                continue
+
+            createPage(const.SPACE_KEY, cut_end, '',id)
 
 
         if os.path.isdir(d):
+            if confluence.page_exists(const.SPACE_KEY,d):
+                print(f'--> skipping {d} <-- ')
+                setLog.setLog(f'page {d} already exist == skipping')
+                continue
+
             createPage(const.SPACE_KEY, d, '', id)
+
             os.chdir(d)
             for f in os.listdir('.'):
                 cut_end = f[:-4]
                 page_id = get_page_id(const.SPACE_KEY, d)
                 if confluence.page_exists(const.SPACE_KEY,cut_end):
-                    print(f'page {cut_end} with id {page_id} already exist')
-                    removerPage(page_id)
-                    createPage(const.SPACE_KEY, cut_end, '', page_id)
-                else:
-                    createPage(const.SPACE_KEY, cut_end, '', page_id)
+                    print(f'--> skipping {cut_end} <-- ')
+                    setLog.setLog(f'page {cut_end} with id {page_id} already exist')
+                    continue
+                createPage(const.SPACE_KEY, cut_end, '',page_id)
+
             os.chdir('../')
     #getData(conn.getData())
 
 if __name__ == '__main__':
     #removerPage(const.PARENT_ID_WHB)
-    #getData(const.PATH_WHB, const.PARENT_ID_WHB)
+    getData(const.PATH_TST, const.PARENT_ID_WHB)
     #print(spaceInfo(const.SPACE_KEY))
-    createPage(const.SPACE_KEY, const.NAME_WHS,'',const.SPACE_ID)
+    #createPage(const.SPACE_KEY, const.NAME_WHS,'',const.SPACE_ID)
     #createPage(const.SPACE_KEY, const.NAME_WSS, '', const.SPACE_ID)
     #pageid = get_page_id(const.SPACE_KEY, const.NAME_WHS)
     #print(pageid)
