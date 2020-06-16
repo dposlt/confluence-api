@@ -92,14 +92,17 @@ def getData(data, id):
 def set_page_status(page_id):
     data = {}
     url = confluence_url + const.cw_status_endpoint.format(page_id)
-    print(url)
     data['name'] = 'Zveřejněno'
     data['comment'] = 'Status updated by migration script'
     return requests.put(url=url, json=data, auth=(confluence.username, confluence.password))
 
+def upload_file(pdf_file, page_id, title):
+    confluence.attach_file(pdf_file, name=None, content_type=None, page_id=page_id, title=title, space=None, comment='migrate content')
+
+
 if __name__ == '__main__':
     #removerPage(const.PARENT_ID_WHB)
-    getData(const.PATH_TST, const.PARENT_ID_WHB)
+    #getData(const.PATH_TST, const.PARENT_ID_WHB)
     #print(spaceInfo(const.SPACE_KEY))
     #createPage(const.SPACE_KEY, const.NAME_WHS,'',const.SPACE_ID)
     #createPage(const.SPACE_KEY, const.NAME_WSS, '', const.SPACE_ID)
@@ -107,6 +110,6 @@ if __name__ == '__main__':
     #print(pageid)
     #createPage(const.SPACE_KEY, '1 01 2018 KVK_Řídicí a kontrolní systém', '', const.PARENT_ID_WHB)
     #confluence.clean_all_caches()
-
-
+    #upload_file(r'C:\Users\212437054\Documents\projects\confluence-api\data\WHB\1 01 2013 PER_Kodex chování skupiny WW_4.pdf', '1335197823','file')
+    confluence.attach_content(r'C:\Users\212437054\Documents\projects\confluence-api\data\WHB\2 01 2017 PCO_Podpisový řád WHB_5.pdf', name=None, content_type=None, page_id='1335197823', title='tst pdf', space=None, comment=None)
 
