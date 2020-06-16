@@ -1,5 +1,6 @@
 from atlassian import Confluence
 import conn, os, const, setLog
+import requests
 
 #configparser
 
@@ -63,6 +64,7 @@ def getData(data, id):
                 continue
 
             createPage(const.SPACE_KEY, cut_end, '',id)
+            set_page_status(get_page_id(const.SPACE_KEY, cut_end))
 
 
         if os.path.isdir(d):
@@ -72,6 +74,7 @@ def getData(data, id):
                 continue
 
             createPage(const.SPACE_KEY, d, '', id)
+            set_page_status(get_page_id(const.SPACE_KEY, d))
 
             os.chdir(d)
             for f in os.listdir('.'):
@@ -82,9 +85,17 @@ def getData(data, id):
                     setLog.setLog(f'page {cut_end} with id {page_id} already exist')
                     continue
                 createPage(const.SPACE_KEY, cut_end, '',page_id)
+                set_page_status(get_page_id(const.SPACE_KEY, cut_end))
 
             os.chdir('../')
-    #getData(conn.getData())
+
+def set_page_status(page_id):
+    data = {}
+    url = confluence_url + const.cw_status_endpoint.format(page_id)
+    print(url)
+    data['name'] = 'Zveřejněno'
+    data['comment'] = 'Status updated by migration script'
+    return requests.put(url=url, json=data, auth=(confluence.username, confluence.password))
 
 if __name__ == '__main__':
     #removerPage(const.PARENT_ID_WHB)
