@@ -53,7 +53,7 @@ def getData(data, id):
 
     os.chdir(data)
     #print(os.getcwd())
-
+    status_update = []
     for d in os.listdir('.'):
         if os.path.isfile(d):
             cut_end = d[:-4]
@@ -64,30 +64,39 @@ def getData(data, id):
                 continue
 
             createPage(const.SPACE_KEY, cut_end, '',id)
-            set_page_status(get_page_id(const.SPACE_KEY, cut_end))
+            status_update.append(get_page_id(const.SPACE_KEY, cut_end))
+            #set_page_status(get_page_id(const.SPACE_KEY, cut_end))
 
 
         if os.path.isdir(d):
+
             if confluence.page_exists(const.SPACE_KEY,d):
                 print(f'--> skipping {d} <-- ')
                 setLog.setLog(f'page {d} already exist == skipping')
                 continue
 
             createPage(const.SPACE_KEY, d, '', id)
-            set_page_status(get_page_id(const.SPACE_KEY, d))
+            status_update.append(get_page_id(const.SPACE_KEY, d))
+
+
 
             os.chdir(d)
             for f in os.listdir('.'):
-                cut_end = f[:-4]
+                #cut_end = f[:-4]
                 page_id = get_page_id(const.SPACE_KEY, d)
+                upload_file(f, page_id, f)
+                '''
                 if confluence.page_exists(const.SPACE_KEY,cut_end):
                     print(f'--> skipping {cut_end} <-- ')
                     setLog.setLog(f'page {cut_end} with id {page_id} already exist')
                     continue
                 createPage(const.SPACE_KEY, cut_end, '',page_id)
                 set_page_status(get_page_id(const.SPACE_KEY, cut_end))
-
+                '''
             os.chdir('../')
+    for i in status_update:
+        print(f'set status for created pages id {i}')
+        set_page_status(i)
 
 def set_page_status(page_id):
     data = {}
@@ -102,7 +111,7 @@ def upload_file(pdf_file, page_id, title):
 
 if __name__ == '__main__':
     #removerPage(const.PARENT_ID_WHB)
-    #getData(const.PATH_TST, const.PARENT_ID_WHB)
+    getData(const.PATH_TST, const.PARENT_ID_WHB)
     #print(spaceInfo(const.SPACE_KEY))
     #createPage(const.SPACE_KEY, const.NAME_WHS,'',const.SPACE_ID)
     #createPage(const.SPACE_KEY, const.NAME_WSS, '', const.SPACE_ID)
@@ -111,5 +120,6 @@ if __name__ == '__main__':
     #createPage(const.SPACE_KEY, '1 01 2018 KVK_Řídicí a kontrolní systém', '', const.PARENT_ID_WHB)
     #confluence.clean_all_caches()
     #upload_file(r'C:\Users\212437054\Documents\projects\confluence-api\data\WHB\1 01 2013 PER_Kodex chování skupiny WW_4.pdf', '1335197823','file')
-    confluence.attach_content(r'C:\Users\212437054\Documents\projects\confluence-api\data\WHB\2 01 2017 PCO_Podpisový řád WHB_5.pdf', name=None, content_type=None, page_id='1335197823', title='tst pdf', space=None, comment=None)
+    #confluence.attach_content('Pavel', name=None, content_type='application/pdf', page_id='1335197846', title='tst pdf', space=const.SPACE_KEY, comment=None)
+
 
