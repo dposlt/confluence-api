@@ -27,7 +27,7 @@ confluence = Confluence(url = confluence_url,
 
 
 def checkName(space,title):
-    conflu().page_exists(space,title)
+    confluence.page_exists(space,title)
 
 
 def spaceInfo(key):
@@ -56,7 +56,10 @@ def getData(data, id):
     status_update = []
     for d in os.listdir('.'):
         if os.path.isfile(d):
-            cut_end = d[:-4]
+            #if checkName(const.SPACE_KEY, const.NAME_WHS) == True:
+            cut_end = d[:-4] + ' '
+            print(repr(cut_end))
+
             if confluence.page_exists(const.SPACE_KEY,cut_end):
                 page_id = get_page_id(const.SPACE_KEY, cut_end)
                 print(f'--> skipping {cut_end} <-- ')
@@ -69,14 +72,15 @@ def getData(data, id):
 
 
         if os.path.isdir(d):
-
-            if confluence.page_exists(const.SPACE_KEY,d):
+            dirname = d + ' '
+            if confluence.page_exists(const.SPACE_KEY,dirname):
                 print(f'--> skipping {d} <-- ')
                 setLog.setLog(f'page {d} already exist == skipping')
                 continue
 
-            createPage(const.SPACE_KEY, d, '', id)
-            status_update.append(get_page_id(const.SPACE_KEY, d))
+            print(repr(dirname))
+            createPage(const.SPACE_KEY, dirname, '', id)
+            status_update.append(get_page_id(const.SPACE_KEY, dirname))
 
 
 
@@ -111,7 +115,7 @@ def upload_file(pdf_file, page_id, title):
 
 if __name__ == '__main__':
     #removerPage(const.PARENT_ID_WHB)
-    getData(const.PATH_TST, const.PARENT_ID_WHB)
+    #getData(const.PATH_TST, const.PARENT_ID_WSS)
     #print(spaceInfo(const.SPACE_KEY))
     #createPage(const.SPACE_KEY, const.NAME_WHS,'',const.SPACE_ID)
     #createPage(const.SPACE_KEY, const.NAME_WSS, '', const.SPACE_ID)
@@ -121,5 +125,6 @@ if __name__ == '__main__':
     #confluence.clean_all_caches()
     #upload_file(r'C:\Users\212437054\Documents\projects\confluence-api\data\WHB\1 01 2013 PER_Kodex chování skupiny WW_4.pdf', '1335197823','file')
     #confluence.attach_content('Pavel', name=None, content_type='application/pdf', page_id='1335197846', title='tst pdf', space=const.SPACE_KEY, comment=None)
+    print(confluence.page_exists(const.SPACE_KEY, const.NAME_WHS))
 
 
