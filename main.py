@@ -56,9 +56,10 @@ def getData(data, id):
     status_update = []
     for d in os.listdir('.'):
         if os.path.isfile(d):
-            #if checkName(const.SPACE_KEY, const.NAME_WHS) == True:
-            cut_end = d[:-4] + ' '
-            print(repr(cut_end))
+            if id == const.PARENT_ID_WSS:
+                cut_end = 'wss_' + d[:-4]
+            else:
+                cut_end = 'whb_' + d[:-4]
 
             if confluence.page_exists(const.SPACE_KEY,cut_end):
                 page_id = get_page_id(const.SPACE_KEY, cut_end)
@@ -72,21 +73,26 @@ def getData(data, id):
 
 
         if os.path.isdir(d):
-            dirname = d + ' '
-            if confluence.page_exists(const.SPACE_KEY,dirname):
+            if id == const.PARENT_ID_WSS:
+                cut_end = 'wss_' + d
+            else:
+                cut_end = 'whb_' + d
+
+            if confluence.page_exists(const.SPACE_KEY,cut_end):
                 print(f'--> skipping {d} <-- ')
                 setLog.setLog(f'page {d} already exist == skipping')
                 continue
 
-            print(repr(dirname))
-            createPage(const.SPACE_KEY, dirname, '', id)
-            status_update.append(get_page_id(const.SPACE_KEY, dirname))
+
+
+            createPage(const.SPACE_KEY, cut_end, '', id)
+            status_update.append(get_page_id(const.SPACE_KEY, cut_end))
 
 
 
             os.chdir(d)
             for f in os.listdir('.'):
-                #cut_end = f[:-4]
+
                 page_id = get_page_id(const.SPACE_KEY, d)
                 upload_file(f, page_id, f)
                 '''
@@ -115,7 +121,7 @@ def upload_file(pdf_file, page_id, title):
 
 if __name__ == '__main__':
     #removerPage(const.PARENT_ID_WHB)
-    #getData(const.PATH_TST, const.PARENT_ID_WSS)
+    getData(const.PATH_TST, const.PARENT_ID_WHB)
     #print(spaceInfo(const.SPACE_KEY))
     #createPage(const.SPACE_KEY, const.NAME_WHS,'',const.SPACE_ID)
     #createPage(const.SPACE_KEY, const.NAME_WSS, '', const.SPACE_ID)
@@ -125,6 +131,6 @@ if __name__ == '__main__':
     #confluence.clean_all_caches()
     #upload_file(r'C:\Users\212437054\Documents\projects\confluence-api\data\WHB\1 01 2013 PER_Kodex chování skupiny WW_4.pdf', '1335197823','file')
     #confluence.attach_content('Pavel', name=None, content_type='application/pdf', page_id='1335197846', title='tst pdf', space=const.SPACE_KEY, comment=None)
-    print(confluence.page_exists(const.SPACE_KEY, const.NAME_WHS))
+
 
 
