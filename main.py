@@ -3,7 +3,7 @@ import conn, os, const, setLog
 import requests
 
 #configparser
-
+import timer
 '''
 config = configparser.ConfigParser()
 config.read('settings.ini')
@@ -50,7 +50,7 @@ def get_page_id(space, title):
     #print(f'create page --> {title}')
 
 def getData(data, id):
-
+    start = timer.start()
     os.chdir(data)
     #print(os.getcwd())
     status_update = []
@@ -107,6 +107,9 @@ def getData(data, id):
     for i in status_update:
         print(f'set status for created pages id {i}')
         set_page_status(i)
+    stop = timer.stop()
+
+    print(timer.total(start, stop))
 
 def set_page_status(page_id):
     data = {}
