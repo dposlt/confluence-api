@@ -54,62 +54,68 @@ def getData(data, id):
     os.chdir(data)
     #print(os.getcwd())
     status_update = []
+    count = 0
     for d in os.listdir('.'):
         if os.path.isfile(d):
-            if id == const.PARENT_ID_WSS:
-                cut_end = 'wss_' + d[:-4]
-            else:
-                cut_end = 'whb_' + d[:-4]
+
+            cut_end = d[:-4]
 
             if confluence.page_exists(const.SPACE_KEY,cut_end):
                 page_id = get_page_id(const.SPACE_KEY, cut_end)
-                print(f'--> skipping {cut_end} <-- ')
+                print(f'--> skipping file {cut_end} <-- ')
                 setLog.setLog(f'page {cut_end} with id {page_id} already exist ==> skipping')
                 continue
 
             createPage(const.SPACE_KEY, cut_end, '',id)
+            upload_file(d, get_page_id(const.SPACE_KEY, cut_end), d)
+            print(f'upload file {d} to page {d}')
+            count += 1
+
             status_update.append(get_page_id(const.SPACE_KEY, cut_end))
             #set_page_status(get_page_id(const.SPACE_KEY, cut_end))
 
 
         if os.path.isdir(d):
+
             if id == const.PARENT_ID_WSS:
                 cut_end = 'wss_' + d
             else:
                 cut_end = 'whb_' + d
 
+
             if confluence.page_exists(const.SPACE_KEY,cut_end):
-                print(f'--> skipping {d} <-- ')
-                setLog.setLog(f'page {d} already exist == skipping')
+                print(f'--> skipping directory {cut_end} <-- ')
+                setLog.setLog(f'page {cut_end} already exist == skipping')
                 continue
+            else:
+
+                createPage(const.SPACE_KEY, cut_end, '', id)
+                status_update.append(get_page_id(const.SPACE_KEY, cut_end))
+                count += 1
 
 
+                os.chdir(d)
+                for f in os.listdir('.'):
 
-            createPage(const.SPACE_KEY, cut_end, '', id)
-            status_update.append(get_page_id(const.SPACE_KEY, cut_end))
-
-
-
-            os.chdir(d)
-            for f in os.listdir('.'):
-
-                page_id = get_page_id(const.SPACE_KEY, d)
-                upload_file(f, page_id, f)
-                '''
-                if confluence.page_exists(const.SPACE_KEY,cut_end):
-                    print(f'--> skipping {cut_end} <-- ')
-                    setLog.setLog(f'page {cut_end} with id {page_id} already exist')
-                    continue
-                createPage(const.SPACE_KEY, cut_end, '',page_id)
-                set_page_status(get_page_id(const.SPACE_KEY, cut_end))
-                '''
-            os.chdir('../')
+                    page_id = get_page_id(const.SPACE_KEY, cut_end)
+                    upload_file(f, page_id, f)
+                    print(f'upload file {f} to page {d}')
+                    '''
+                    if confluence.page_exists(const.SPACE_KEY,cut_end):
+                        print(f'--> skipping {cut_end} <-- ')
+                        setLog.setLog(f'page {cut_end} with id {page_id} already exist')
+                        continue
+                    createPage(const.SPACE_KEY, cut_end, '',page_id)
+                    set_page_status(get_page_id(const.SPACE_KEY, cut_end))
+                    `'''
+                os.chdir('../')
     for i in status_update:
         print(f'set status for created pages id {i}')
         set_page_status(i)
     stop = timer.stop()
 
     print(timer.total(start, stop))
+    print(f'celkově vytvořeno {count} stránek')
 
 def set_page_status(page_id):
     data = {}
@@ -124,7 +130,7 @@ def upload_file(pdf_file, page_id, title):
 
 if __name__ == '__main__':
     #removerPage(const.PARENT_ID_WHB)
-    getData(const.PATH_TST, const.PARENT_ID_WHB)
+    getData(const.PATH_WHB, const.PARENT_ID_WHB)
     #print(spaceInfo(const.SPACE_KEY))
     #createPage(const.SPACE_KEY, const.NAME_WHS,'',const.SPACE_ID)
     #createPage(const.SPACE_KEY, const.NAME_WSS, '', const.SPACE_ID)
