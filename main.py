@@ -38,8 +38,8 @@ def removerPage(page_id):
     confluence.remove_page(page_id, status=None, recursive=False)
 
 
-def createPage(page_space, page_title, body, parent_id):
-    confluence.create_page(space=page_space, title=page_title, body=body, parent_id=parent_id)
+def createPage(page_space, page_title, parent_id):
+    confluence.create_page(space=page_space, title=page_title, body='Plné znění migrovaného předpisu naleznete v PDF souboru v příloze.', parent_id=parent_id)
     print(f'create page --> {page_title} ')
 
 def get_page_id(space, title):
@@ -66,7 +66,7 @@ def getData(data, id):
                 setLog.setLog(f'page {cut_end} with id {page_id} already exist ==> skipping')
                 continue
 
-            createPage(const.SPACE_KEY, cut_end, '',id)
+            createPage(const.SPACE_KEY, cut_end,id)
             upload_file(d, get_page_id(const.SPACE_KEY, cut_end), d)
             print(f'upload file {d} to page {d}')
             count += 1
@@ -78,9 +78,9 @@ def getData(data, id):
         if os.path.isdir(d):
 
             if id == const.PARENT_ID_WSS:
-                cut_end = 'wss_' + d
+                cut_end = 'WSS_' + d
             else:
-                cut_end = 'whb_' + d
+                cut_end = 'WHB_' + d
 
 
             if confluence.page_exists(const.SPACE_KEY,cut_end):
@@ -89,7 +89,7 @@ def getData(data, id):
                 continue
             else:
 
-                createPage(const.SPACE_KEY, cut_end, '', id)
+                createPage(const.SPACE_KEY, cut_end, id)
                 status_update.append(get_page_id(const.SPACE_KEY, cut_end))
                 count += 1
 
@@ -109,6 +109,7 @@ def getData(data, id):
                     set_page_status(get_page_id(const.SPACE_KEY, cut_end))
                     `'''
                 os.chdir('../')
+
     for i in status_update:
         print(f'set status for created pages id {i}')
         set_page_status(i)
@@ -132,8 +133,8 @@ if __name__ == '__main__':
     #removerPage(const.PARENT_ID_WHB)
     getData(const.PATH_WHB, const.PARENT_ID_WHB)
     #print(spaceInfo(const.SPACE_KEY))
-    #createPage(const.SPACE_KEY, const.NAME_WHS,'',const.SPACE_ID)
-    #createPage(const.SPACE_KEY, const.NAME_WSS, '', const.SPACE_ID)
+    #createPage(const.SPACE_KEY, const.NAME_WHS,const.SPACE_ID)
+    #createPage(const.SPACE_KEY, const.NAME_WSS, const.SPACE_ID)
     #pageid = get_page_id(const.SPACE_KEY, const.NAME_WHS)
     #print(pageid)
     #createPage(const.SPACE_KEY, '1 01 2018 KVK_Řídicí a kontrolní systém', '', const.PARENT_ID_WHB)
