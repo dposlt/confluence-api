@@ -58,7 +58,9 @@ def getData(data, id):
     for d in os.listdir('.'):
         if os.path.isfile(d):
 
-            cut_end = d[:-4]
+
+            cut_end = d[0:3].upper() + d[3:-4] #uprava jmen podle pozadavku
+
 
             if confluence.page_exists(const.SPACE_KEY,cut_end):
                 page_id = get_page_id(const.SPACE_KEY, cut_end)
@@ -131,6 +133,7 @@ def upload_file(pdf_file, page_id, title):
 
 if __name__ == '__main__':
     #removerPage(const.PARENT_ID_WHB)
+    #getData(const.PATH_WSS, const.PARENT_ID_WSS)
     getData(const.PATH_WHB, const.PARENT_ID_WHB)
     #print(spaceInfo(const.SPACE_KEY))
     #createPage(const.SPACE_KEY, const.NAME_WHS,const.SPACE_ID)
